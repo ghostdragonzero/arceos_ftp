@@ -8,6 +8,9 @@ authors = ["Song Zhiyong <szy@outlook.com>"]
 log = "0.4"
 bit_field = "0.10.2"
 volatile = "0.3"
+tock-registers = "0.9.0"
+dma-api = { version = "0.2", features = ["alloc"] }
+bitflags = "2.6"
 core_detect = "1.0.0"
 spin = "0.9"
 axdriver_base = { git = "https://github.com/arceos-org/axdriver_crates.git", tag = "v0.1.0" }

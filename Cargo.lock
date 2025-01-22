@@ -8,7 +8,7 @@ version = "9.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ac42a04a61c19fc8196dd728022a784baecc5d63d7e256c01ad1b3fbfab26287"
 dependencies = [
- "tock-registers",
+ "tock-registers 0.8.1",
 ]
 
 [[package]]
@@ -178,7 +178,7 @@ version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "47d25e73c949c69f75d1b9dba39c5475523403b31eb8c2fdc99da4dc33bc1aca"
 dependencies = [
- "tock-registers",
+ "tock-registers 0.8.1",
 ]
 
 [[package]]
@@ -187,7 +187,7 @@ version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "efcf6afca4502993a737ba1e00952d1321078689da92bf7aab27d4e5756c0bec"
 dependencies = [
- "tock-registers",
+ "tock-registers 0.8.1",
 ]
 
 [[package]]
@@ -464,7 +464,7 @@ dependencies = [
  "riscv_goldfish",
  "sbi-rt",
  "static_assertions",
- "tock-registers",
+ "tock-registers 0.8.1",
  "x2apic",
  "x86",
  "x86_64 0.15.2",
@@ -609,7 +609,7 @@ source = "git+https://github.com/lhw2002426/bcm2835-sdhci.git?rev=e974f16#e974f1
 dependencies = [
  "aarch64-cpu",
  "log",
- "tock-registers",
+ "tock-registers 0.8.1",
  "volatile 0.2.7",
 ]
 
@@ -880,12 +880,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "dma-api"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "13029088ff130c8eb6a35ff20410ebed5f6750507681bf3d90f74ba97032a407"
+
+[[package]]
 name = "dw_apb_uart"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f93d496c8faa9dc676ebfa225432e1e3b57645c9268ead889286546f6d39356d"
 dependencies = [
- "tock-registers",
+ "tock-registers 0.8.1",
 ]
 
 [[package]]
@@ -1010,10 +1016,13 @@ version = "0.1.0"
 dependencies = [
  "axdriver_base",
  "bit_field",
+ "bitflags 2.6.0",
  "core_detect",
+ "dma-api",
  "log",
  "smoltcp",
  "spin",
+ "tock-registers 0.9.0",
  "volatile 0.3.0",
 ]
 
@@ -1627,6 +1636,12 @@ name = "tock-registers"
 version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "696941a0aee7e276a165a978b37918fd5d22c55c3d6bda197813070ca9c0f21c"
+
+[[package]]
+name = "tock-registers"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2b9e2fdb3a1e862c0661768b7ed25390811df1947a8acbfbefe09b47078d93c4"
 
 [[package]]
 name = "toml_datetime"

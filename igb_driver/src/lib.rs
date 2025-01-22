@@ -12,6 +12,7 @@ mod hal;
 mod interrupts;
 mod igb;
 mod memory;
+mod mac;
 
 // mod net_buf;
 pub mod net_igb;
@@ -47,6 +48,7 @@ pub enum IgbError {
     /// Invalid `queue_id`.
     InvalidQueue,
 }
+
 
 /// Result type for Ixgbe functions.
 pub type IgbResult<T = ()> = Result<T, IgbError>;
@@ -96,6 +98,7 @@ pub struct DeviceStats {
     pub tx_bytes: u64,
 }
 
+
 impl core::fmt::Display for DeviceStats {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(
@@ -104,4 +107,11 @@ impl core::fmt::Display for DeviceStats {
             self.rx_pkts, self.tx_pkts, self.rx_bytes, self.tx_bytes
         )
     }
+}
+#[allow(missing_docs)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Speed {
+    Mb10,
+    Mb100,
+    Mb1000,
 }
