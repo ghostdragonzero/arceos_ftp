@@ -39,6 +39,8 @@ mmio-regions = [
     [0x2800_D000, 0x1000],  # UART 1
     [0x2800_E000, 0x1000],  # UART 2
     [0x2800_F000, 0x1000],  # UART 3
+    [0x2804_0000, 0x2000],  # WDT0
+    [0x2804_2000, 0x2000],  # WDT1
 
     [0x3000_0000, 0x800_0000],  # other devices
     [0x4000_0000, 0x1000_0000], # Pcie ecam
@@ -84,5 +86,10 @@ gicd-paddr = 0x3088_0000        # uint
 # PSCI
 psci-method = "smc"             # str
 
+# wdt
+wdt0-paddr = 0x2804_0000             # uint
+wdt1-paddr = 0x2804_2000             # uint
+
+gpio-paddr = 0x2803_4000
 # CPU Hardware ID list
 cpu-id-list = [0x0, 0x100, 0x200, 0x201]

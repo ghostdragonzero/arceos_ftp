@@ -57,6 +57,7 @@ pub fn platform_init() {
     super::aarch64_common::gic::init_primary();
     super::aarch64_common::generic_timer::init_percpu();
     super::aarch64_common::pl011::init();
+    wdt_init();
 }
 
 /// Initializes the platform devices for secondary CPUs.
@@ -65,6 +66,7 @@ pub fn platform_init_secondary() {
     #[cfg(feature = "irq")]
     super::aarch64_common::gic::init_secondary();
     super::aarch64_common::generic_timer::init_percpu();
+
 }
 
 fn cpu_hard_id_to_logic_id(hard_id: usize) -> usize {
@@ -72,4 +74,56 @@ fn cpu_hard_id_to_logic_id(hard_id: usize) -> usize {
         .iter()
         .position(|&x| x == hard_id)
         .unwrap()
+}
+
+use crate::mem::phys_to_virt;
+pub fn wdt_init() {
+    
+    let base_addr = pa!(axconfig::devices::WDT0_PADDR); 
+     info!("addr0   {:#x}", axconfig::devices::WDT0_PADDR);
+     info!("addr1   {:#x}", axconfig::devices::WDT1_PADDR);
+    let base_addr = phys_to_virt(base_addr).as_mut_ptr();
+    // 获取看门狗基地址
+    #[cfg(feature = "irq")]
+    {
+        use super::irq;
+        use super::irq::register_handler;
+        const GPIO_IRQ: usize = 196;
+        
+        info!("init irq ?  {:#x}", GPIO_IRQ);
+        register_handler(GPIO_IRQ, handle_wdt_irq);
+        irq::set_enable(GPIO_IRQ, true);
+    }
+    info!("set irq");
+    // 使能中断
+
+    unsafe{    
+        let reg = base_addr.add(0x008) as *mut u32;
+        core::ptr::write_volatile(reg, 0x30000000);
+        info!("set timeout 0x10000");
+
+        let enable_reg = base_addr.add(0x000) as *mut u32;
+        let val = core::ptr::read_volatile(enable_reg);
+        info!("0x000{:#x}", val);
+        core::ptr::write_volatile(enable_reg, val | (1 << 0));
+
+    }
+    
+
+
+}
+
+pub fn handle_wdt_irq() {
+    use core::arch::asm;
+    let base_addr = pa!(axconfig::devices::WDT0_PADDR); // 用 let
+    let base_addr = phys_to_virt(base_addr).as_mut_ptr();
+
+    info!("wdt time out ");
+/* 
+    unsafe {
+
+        asm!("mov w0, #0x18");
+        asm!("hlt #0xF000");
+    }
+    */
 }

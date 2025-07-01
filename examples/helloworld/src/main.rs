@@ -12,6 +12,9 @@ use axstd::time;
 fn main() {
     println!("Hello, world!");
     loop {
-        sleep(time::Duration::from_millis(10));
+        sleep(time::Duration::from_secs(1));
+        println!("in loop");
+        let wcs = 0xffff_0000_2804_1000 as *mut u32;
+        println!("sleep 1s, get wcs {:x}", unsafe { *wcs });
     }
 }
