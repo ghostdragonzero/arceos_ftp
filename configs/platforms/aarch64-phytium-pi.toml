@@ -74,6 +74,7 @@ pci-ranges = [
 ]                                       # [(uint, uint)]
 # UART Address
 uart-paddr = 0x2800_D000        # uint
+uart2-paddr = 0x2800_E000        # uint
 # UART IRQ number
 uart-irq = 0x54                 # uint
 

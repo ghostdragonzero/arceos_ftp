@@ -1,4 +1,6 @@
 pub mod mem;
+pub mod uart;
+//pub mod test_uart;
 
 #[cfg(feature = "smp")]
 pub mod mp;
@@ -23,6 +25,8 @@ pub mod misc {
             crate::arch::halt();
         }
     }
+
+    //pub use super::test_uart::*;
 }
 
 unsafe extern "C" {
@@ -57,7 +61,38 @@ pub fn platform_init() {
     super::aarch64_common::gic::init_primary();
     super::aarch64_common::generic_timer::init_percpu();
     super::aarch64_common::pl011::init();
-    wdt_init();
+    
+    crate::platform::uart::init();
+    use crate::platform::uart::UART2;
+    let mut uart = UART2.lock();
+    let mut data:u8 = 0;
+    loop {
+        uart.putchar(data);
+        info!("no 8 end data {data}");
+        let read = uart.getchar();
+        info!("read data {read}");
+        info!("sleep 1s");
+        data = data.wrapping_add(1);
+    }
+
+
+/* 
+    use crate::time::Duration;
+    use crate::misc::UART2;
+
+    let mut uart = UART2.lock();
+    uart.init_no_irq(100_000_000, 115200);
+    let mut data:u8 = 0;
+    loop {
+        uart.put_byte_poll(data);
+        info!("use  bitrate send data {data}");
+        let read = uart.read_byte_poll();
+        info!("read data {read}");
+        info!("sleep 1s");
+        data = data.wrapping_add(1);
+    }
+*/
+
 }
 
 /// Initializes the platform devices for secondary CPUs.
@@ -66,6 +101,7 @@ pub fn platform_init_secondary() {
     #[cfg(feature = "irq")]
     super::aarch64_common::gic::init_secondary();
     super::aarch64_common::generic_timer::init_percpu();
+
 
 }
 
